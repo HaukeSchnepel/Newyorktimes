@@ -1,0 +1,30 @@
+
+def year_range(list1, year1, year2):
+    # traverse in the list1 
+    for book in list1: 
+        # condition check 
+        if book>= year1 and book<= year2: 
+            print(book)
+      
+# driver code 
+list1 = [1988, 2002, 1999, 1978, 2000, 1990, 1981, 1995, 1989] 
+year1 = int(input())
+year2 = int(input())
+print(year_range(list1, year1, year2))
+
+
+def year_month(list1, month, year):
+    # traverse in the list1 
+    for book in list1: 
+        # condition check 
+        if book == [month, year]: 
+            print(book)
+      
+# driver code 
+list1 = [[7, 1988], [8, 2002], [9, 1999], [2, 1978]] 
+month = int(input())
+year = int(input())
+print(year_month(list1, month, year))
+
+
+#ich hoffe diese codes sind zu gebrauchen und funktionieren... ich hab mir echt mühe gegeben, bin mir aber nicht sicher ob sie klappen...
