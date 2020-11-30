@@ -1,0 +1,7 @@
+Daten = open('/Users/denniserni/Desktop/Studium/HSG/11. Semester M HS 20/Programming Project/bestsellers2.txt')
+Liste = []
+i = 0
+for j in Daten:
+	j_Liste = j.split('\t')
+	Liste.append(j_Liste)
+	i +=1
