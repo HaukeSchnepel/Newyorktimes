@@ -1,2 +1,41 @@
-print("hello world")
-Print("hallo zurück")
+ls = [["AngelsFall",	"NoraRoberts"	,"Putnam", 	"7/30/2006",	"Fiction"],["Airframe",	"MichaelCrichton",	"Knopf",	"12/29/1996",	"Fiction"]]
+
+#Author search. Have to put it into a function
+author_searched = str(input(" Insert the name of the author here: "))
+
+
+i = 0
+for ele in ls:
+    if author_searched in ls[i][1]:
+        print("Book Information:")
+        print("Book Name: %s"% ls[i][0])
+        print("Book Author: %s" % ls[i][1])
+        print("Book Publischer: %s" % ls[i][2])
+        print("Book Date Published: %s" % ls[i][3])
+        print("Book Category: %s" % ls[i][4])
+    i += 1
+
+# Title search. Have to put it into a function
+i = 0
+for ele in ls:
+    if title_searched in ls[i][1]:
+        print("Book Information:")
+        print("Book Name: %s"% ls[i][0])
+        print("Book Author: %s" % ls[i][1])
+        print("Book Publischer: %s" % ls[i][2])
+        print("Book Date Published: %s" % ls[i][3])
+        print("Book Category: %s" % ls[i][4])
+    i += 1
+
+    #if author_searched in ls:
+ #   print(ls)
+
+
+
+#for name in author_searched:
+ #   if name in author_searched
+  #      print
+
+# Possible further functions:
+# Add or delete titles (like swedisch calculator)
+#show all books in the fiction category or so
