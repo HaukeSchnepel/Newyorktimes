@@ -1,3 +1,4 @@
+from datetime import datetime
 Daten = open('/Users/haukeschnepel/Desktop/Python/Projects/bestsellers2.txt')
 Liste = []
 i = 0
@@ -6,26 +7,23 @@ for j in Daten:
     Liste.append(j_Liste)
     i += 1
 
-print(Liste)
-# ------------------
-# Claudios part (questions 1 & 2)
-
-#pop = str(input("here"))
-from datetime import datetime
-date1 = datetime.strptime(Liste[0][3], "%d/%m/%Y")
-date2 = datetime.strptime(pop, "%Y")
-print(date1)
-print(date2)
-
+#--------
 
 def year_range(start,end):
     st = datetime.strptime(start, "%Y")
     en = datetime.strptime(end, "%Y")
     for book in Liste:
-        book_datum = datetime.strptime(book[3], "%d/%m/%Y")
+        book_datum = datetime.strptime(book[3], "%m/%d/%Y")
         if book_datum > st and book_datum < en:
             print(book)
 
+def year_month(year,month):
+    date = year + "/" + month
+    date_search = datetime.strptime(date, "%m/%Y").strftime("%m/%Y")
+    for book in Liste:
+        book_datum = datetime.strptime(book[3], "%m/%d/%Y").strftime("%m/%Y")
+        if book_datum == date_search:
+            print(book)
 
 # --------------------
 # Hauke parts below
@@ -42,7 +40,6 @@ def author_search(author):
             print("Book Category: %s" % Liste[i][4])
         i += 1
 
-
 def title_search(title):
     i = 0
     for ele in Liste:
@@ -54,8 +51,6 @@ def title_search(title):
             print("Book Date Published: %s" % Liste[i][3])
             print("Book Category: %s" % Liste[i][4])
         i += 1
-
-
 # -------------
 # Panel ist below (navigator)
 
@@ -72,11 +67,11 @@ while True:
     if ans == "1":
         start = str(input("Insert the starting year here"))
         end = str(input("Insert your ending date here"))
-        year_range(start, end)
+        year_range(start,end)
     elif ans == "2":
         month = str(input("Insert the starting month here"))
-        start = str(input("Insert the starting year here"))
-        year_month(month, start)
+        year = str(input("Insert the starting year here"))
+        year_month(month,year)
     elif ans == "3":
         # author = str(input(" Insert the name of the author here: "))
         author_search(str(input(" Insert the name of the author here: ")))
@@ -90,3 +85,4 @@ while True:
     else:
         print("Please enter only 1 or 2 or 3. Try again")
     continue
+
