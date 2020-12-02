@@ -1,79 +1,92 @@
-ls = [["AngelsFall",	"NoraRoberts"	,"Putnam", 	"7/30/2006",	"Fiction"],["Airframe",	"MichaelCrichton",	"Knopf",	"12/29/1996",	"Fiction"]]
+Daten = open('/Users/haukeschnepel/Desktop/Python/Projects/bestsellers2.txt')
+Liste = []
+i = 0
+for j in Daten:
+    j_Liste = j.split('\t')
+    Liste.append(j_Liste)
+    i += 1
 
-#Author search. Have to put it into a function
+print(Liste)
+# ------------------
+# Claudios part (questions 1 & 2)
 
-print("Hello welcome to your New York TImes Best seller search")
-#the while loops allows us to loop through this translator more often
+#pop = str(input("here"))
+from datetime import datetime
+date1 = datetime.strptime(Liste[0][3], "%d/%m/%Y")
+date2 = datetime.strptime(pop, "%Y")
+print(date1)
+print(date2)
+
+
+def year_range(start,end):
+    st = datetime.strptime(start, "%Y")
+    en = datetime.strptime(end, "%Y")
+    for book in Liste:
+        book_datum = datetime.strptime(book[3], "%d/%m/%Y")
+        if book_datum > st and book_datum < en:
+            print(book)
+
+
+# --------------------
+# Hauke parts below
+
+def author_search(author):
+    i = 0
+    for ele in Liste:
+        if author in Liste[i][1]:
+            print("Book Information")
+            print("Book Name: %s" % Liste[i][0])
+            print("Book Author: %s" % Liste[i][1])
+            print("Book Publisher: %s" % Liste[i][2])
+            print("Book Date Published: %s" % Liste[i][3])
+            print("Book Category: %s" % Liste[i][4])
+        i += 1
+
+
+def title_search(title):
+    i = 0
+    for ele in Liste:
+        if title in Liste[i][0]:
+            print("Book Information:")
+            print("Book Name: %s" % Liste[i][0])
+            print("Book Author: %s" % Liste[i][1])
+            print("Book Publischer: %s" % Liste[i][2])
+            print("Book Date Published: %s" % Liste[i][3])
+            print("Book Category: %s" % Liste[i][4])
+        i += 1
+
+
+# -------------
+# Panel ist below (navigator)
+
 while True:
-  print("Do you want to:")
-  print("1. Search for date")
-  print("2. Search for date")
-  print("3. Search for author")
-  print("4. Search for title")
-  print("5. to exit the search module")
-  #here the user can decide what action to take which afterewards will trigger the corresponding if function
-  ans = str(input("Enter either 1 or 2 or 3 or 4 or 5> "))
-  if ans == "1":
-    en = str(input("Please enter the english word here: ")).lower()
-    sw = str(input("Please enter the Swedish word for %s here: "%en)).lower()
-    #below we add the words to the dictionary and then print a confirmation
-    dictionary[en]=sw
-    print("The translation: %s = %s has been added to the dictionary"%(en,sw))
-  elif ans == "2":
-    # here we create an translated list which we can later append translated terms to
-    translated = []
-    #here we allow the user to ask to translate several words at once by splitting them with the space
-    lword = str(input("Which words do you want to look up (separate them by a space)? > ")).split()
-    for words in lword:
-      #this checks if the word is found in the dictionary and if not it prints the error message. If it is found it is appended to the translated list which is printed at the end of this for loop
-      if words in dictionary:
-        translated.append(words)
-      else:
-        print("The word %s was not found in the dictionary"%words)
-    print("The word/words %s in Swedish is/are: %s"%(translated,translate(lword)))
-  elif ans == "3":
-      author_searched = str(input(" Insert the name of the author here: "))
-      i = 0
-      for ele in ls:
-          if author_searched in ls[i][1]:
-              print("Book Information")
-              print("Book Name: %s" % ls[i][0])
-              print("Book Author: %s" % ls[i][1])
-              print("Book Publisher: %s" % ls[i][2])
-              print("Book Date Published: %s" % ls[i][3])
-              print("Book Category: %s" % ls[i][4])
-          i += 1
-  elif ans == "4":
-      title_searched = str(input(" Insert the name of the book here: "))
-      i = 0
-      for ele in ls:
-          if title_searched in ls[i][0]:
-              print("Book Information:")
-              print("Book Name: %s" % ls[i][0])
-              print("Book Author: %s" % ls[i][1])
-              print("Book Publischer: %s" % ls[i][2])
-              print("Book Date Published: %s" % ls[i][3])
-              print("Book Category: %s" % ls[i][4])
-          i += 1
-  elif ans == "5":
-    print("Thank you for using the our search service, goodbye")
-    break
-    #if the user does not answer a 1 or 2 or 3 then this error message is printed and the while loop is triggered again
-  else:
-    print("Please enter only 1 or 2 or 3 or 4 or 5. Try again")
-  continue
+    print("Do you want to:")
+    print("1. Search for year range")
+    print("2. Search for date")
+    print("3. Search for author")
+    print("4. Search for title")
+    print("5. to exit the search module")
+    # here the user can decide what action to take which afterewards will trigger the corresponding if function
+    ans = str(input("Enter either 1 or 2 or 3 or 4 or 5> "))
 
-
-
-
-
-
-
-
-
-
-
-
-# Possible further functions:
-# Add or delete titles (like swedisch calculator)
-#show all books in the fiction category or so
+    if ans == "1":
+        start = str(input("Insert the starting year here"))
+        end = str(input("Insert your ending date here"))
+        year_range(start, end)
+    elif ans == "2":
+        month = str(input("Insert the starting month here"))
+        start = str(input("Insert the starting year here"))
+        year_month(month, start)
+    elif ans == "3":
+        # author = str(input(" Insert the name of the author here: "))
+        author_search(str(input(" Insert the name of the author here: ")))
+    elif ans == "4":
+        title_search(str(input(" Insert the name of the book here: ")))
+        # title_searched = str(input(" Insert the name of the book here: "))
+    elif ans == "5":
+        print("Thank you for using the our search service, goodbye")
+        break
+    # if the user does not answer a 1 or 2 or 3 then this error message is printed and the while loop is triggered again
+    else:
+        print("Please enter only 1 or 2 or 3. Try again")
+    continue
