@@ -1,88 +1,179 @@
 from datetime import datetime
-Daten = open('/Users/haukeschnepel/Desktop/Python/Projects/bestsellers2.txt')
+import tkinter as tk
+
+#Here we pull the data from the txt file. Make sure to put in the path to the local txt file below to find the data
+fh = open('/Users/haukeschnepel/Desktop/Python/Projects/bestsellers2.txt')
 Liste = []
 i = 0
-for j in Daten:
+for j in fh:
     j_Liste = j.split('\t')
     Liste.append(j_Liste)
     i += 1
 
-#--------
-
+# Q1: function to search for all books in a certain time range
 def year_range(start,end):
-    st = datetime.strptime(start, "%Y")
-    en = datetime.strptime(end, "%Y")
-    for book in Liste:
-        book_datum = datetime.strptime(book[3], "%m/%d/%Y")
-        if book_datum > st and book_datum < en:
-            print(book)
+    try:
+        st = datetime.strptime(start, "%Y")
+        en = datetime.strptime(end, "%Y")
+        publist = []
+        for book in Liste:
+            book_datum = datetime.strptime(book[3], "%m/%d/%Y")
+            if book_datum > st and book_datum < en:
+                publist.append(book)
+            release(publist)
+            labelinfo["text"] = "All titles between " + start + " and " + end
+    except:
+        label["text"] = "You entered invalid dates, please change you input"
 
-def year_month(year,month):
-    date = year + "/" + month
-    date_search = datetime.strptime(date, "%m/%Y").strftime("%m/%Y")
-    for book in Liste:
-        book_datum = datetime.strptime(book[3], "%m/%d/%Y").strftime("%m/%Y")
-        if book_datum == date_search:
-            print(book)
+# Q2: function to search for all books in a certain month
+def year_month(month, year):
+    try:
+        date = month + "/" + year
+        date_search = datetime.strptime(date, "%m/%Y").strftime("%m/%Y")
+        publist = []
+        for book in Liste:
+            book_datum = datetime.strptime(book[3], "%m/%d/%Y").strftime("%m/%Y")
+            if book_datum == date_search:
+                publist.append(book)
+        release(publist)
+        labelinfo["text"] = "All titles in the month " + month + " of the year " + year
+    except:
+        label["text"] = "You entered invalid dates, please change you input"
 
-# --------------------
-# Hauke parts below
-
+# Q3: function to search for all books from an author
 def author_search(author):
-    i = 0
-    for ele in Liste:
-        if author in Liste[i][1]:
-            print("Book Information")
-            print("Book Name: %s" % Liste[i][0])
-            print("Book Author: %s" % Liste[i][1])
-            print("Book Publisher: %s" % Liste[i][2])
-            print("Book Date Published: %s" % Liste[i][3])
-            print("Book Category: %s" % Liste[i][4])
-        i += 1
+        publist = []
+        for book in Liste:
+            if author.lower() in book[1].lower():
+                publist.append(book)
+        release(publist)
+        labelinfo["text"] = "All titles from the Author (or authos that include): " + author
 
+# Q4: function to search book names
 def title_search(title):
-    i = 0
-    for ele in Liste:
-        if title in Liste[i][0]:
-            print("Book Information:")
-            print("Book Name: %s" % Liste[i][0])
-            print("Book Author: %s" % Liste[i][1])
-            print("Book Publischer: %s" % Liste[i][2])
-            print("Book Date Published: %s" % Liste[i][3])
-            print("Book Category: %s" % Liste[i][4])
-        i += 1
-# -------------
-# Panel ist below (navigator)
+    publist = []
+    for book in Liste:
+        if title.lower() in book[0].lower():
+            publist.append(book)
+    release(publist)
+    labelinfo["text"] = "All titles that include: " + title
 
-while True:
-    print("Do you want to:")
-    print("1. Search for year range")
-    print("2. Search for date")
-    print("3. Search for author")
-    print("4. Search for title")
-    print("5. to exit the search module")
-    # here the user can decide what action to take which afterewards will trigger the corresponding if function
-    ans = str(input("Enter either 1 or 2 or 3 or 4 or 5> "))
+# function to format the text before putting it in a label
+def format_list(Liste):
+    try:
+        name = Liste[0]
+        author = Liste[1]
+        Publ = Liste[2]
+        date = Liste[3]
+        cat = Liste[4]
+        final_str = 'Title: %s    Author: %s    Publisher: %s    Date: %s    Category: %s' % (name, author, Publ, date, cat)
+        
+    except:
+        final_str = 'There was a problem retrieving that information'
+    return final_str
 
-    if ans == "1":
-        start = str(input("Insert the starting year here"))
-        end = str(input("Insert your ending date here"))
-        year_range(start,end)
-    elif ans == "2":
-        month = str(input("Insert the starting month here"))
-        year = str(input("Insert the starting year here"))
-        year_month(month,year)
-    elif ans == "3":
-        # author = str(input(" Insert the name of the author here: "))
-        author_search(str(input(" Insert the name of the author here: ")))
-    elif ans == "4":
-        title_search(str(input(" Insert the name of the book here: ")))
-        # title_searched = str(input(" Insert the name of the book here: "))
-    elif ans == "5":
-        print("Thank you for using the our search service, goodbye")
-        break
-    # if the user does not answer a 1 or 2 or 3 then this error message is printed and the while loop is triggered again
+def release(publist):
+    print_list = []
+    for book in publist:
+        a = format_list(book)
+        print_list.append(a)
+    print(len(print_list))
+    if len(print_list) == 0:
+        label["text"] = "No titles found under your search criteria"
     else:
-        print("Please enter only 1 or 2 or 3. Try again")
-    continue
+        text = "".join(print_list)
+        label['text'] = text
 
+#----------
+#Here we now build the interface with tkinter
+#Starting of by deciding on the hight and different colors
+HEIGHT  = 1200
+WIDTH = 1200
+C1="#5499C7" #light - Frame backgroun d
+C2="#CCD1D1" #Input label
+C3="#85C1E9" #label
+C4="#D6EAF8" #button
+
+#here we create the root
+root = tk.Tk()
+
+#a canvas to hold the window at a certain size
+canvas = tk.Canvas(root, height=HEIGHT, width=WIDTH, bg="#5D6D7E")
+canvas.pack()
+
+#title of the interface
+labeltitle = tk.Label(root, text="Welcome to your NY Times Bestseller List Search", bg=C1, bd=5)
+labeltitle.place(relx=0.5, rely=0.01, relheight=0.04, relwidth=0.4, anchor="n")
+
+#Widget for Questions 1
+frame1 = tk.Frame(root, bg=C1, bd=5)
+frame1.place(relx=0.5, rely=0.055, relheight=0.05, relwidth=0.75, anchor="n")
+
+label1 = tk.Label(frame1, text="Search for all books\nin a year range (Start,End in Years)", bg=C3)
+label1.place(relwidth=0.3, relheight=1)
+
+entry1 = tk.Entry(frame1, font=40, bg=C2)
+entry1.place(relx=0.35, relwidth=0.14, relheight=1)
+
+entry15 = tk.Entry(frame1, font=40, bg=C2)
+entry15.place(relx=0.5,relwidth=0.14, relheight=1)
+
+button1 = tk.Button(frame1, text="Search", font = 40, command=lambda: year_range(entry1.get(), entry15.get()))
+button1.place(relx=0.7, relwidth=0.3, relheight=1)
+
+#Widget for Questions 2
+frame2 = tk.Frame(root, bg=C1, bd=5)
+frame2.place(relx=0.5, rely=0.11, relheight=0.05, relwidth=0.75, anchor="n")
+
+label2 = tk.Label(frame2, text="Search for all books\nin a certain month (M,Y)", bg=C3)
+label2.place(relwidth=0.3, relheight=1)
+
+entry2 = tk.Entry(frame2, font=40, bg=C2)
+entry2.place(relx=0.35, relwidth=0.14, relheight=1)
+
+entry25 = tk.Entry(frame2, font=40, bg=C2)
+entry25.place(relx=0.5,relwidth=0.14, relheight=1)
+
+button2 = tk.Button(frame2, text="Search", font = 40, command=lambda: year_month(entry2.get(), entry25.get()))
+button2.place(relx=0.7, relwidth=0.3, relheight=1)
+
+#Widget for Questions 3
+frame3 = tk.Frame(root, bg=C1, bd=5)
+frame3.place(relx=0.5, rely=0.165, relheight=0.05, relwidth=0.75, anchor="n")
+
+label3 = tk.Label(frame3, text="Search for an Author", bg=C3)
+label3.place(relwidth=0.3, relheight=1)
+
+entry3 = tk.Entry(frame3, font=40, bg=C2)
+entry3.place(relx=0.35,relwidth=0.3, relheight=1)
+
+button3 = tk.Button(frame3, text="Search", font = 40, command=lambda: author_search(entry3.get()))
+button3.place(relx=0.7, relwidth=0.3, relheight=1)
+
+#Widget for Questions 4
+frame4 = tk.Frame(root, bg=C1, bd=5)
+frame4.place(relx=0.5, rely=0.22, relheight=0.05, relwidth=0.75, anchor="n")
+
+label4 = tk.Label(frame4, text="Search for a title", bg=C3)
+label4.place(relwidth=0.3, relheight=1)
+
+entry4 = tk.Entry(frame4, font=40, bg=C2)
+entry4.place(relx=0.35,relwidth=0.3, relheight=1)
+
+button4 = tk.Button(frame4, text="Search", font = 40, command=lambda: title_search(entry4.get()))
+button4.place(relx=0.7, relwidth=0.3, relheight=1)
+
+
+#lower frame which holds the output of the searches
+lower_frame = tk.Frame(root, bg='#80c1ff', bd=5)
+lower_frame.place(relx=0.5, rely=0.3, relwidth=0.95, relheight=0.6, anchor='n')
+
+# here it states what the user searched for
+labelinfo = tk.Label(lower_frame, justify="left", anchor="w", bg="#326ba8", fg="white")
+labelinfo.place(rely=0, relwidth=0.5, relheight=0.05)
+
+# here it prints the output inside
+label = tk.Label(lower_frame, justify="left", anchor="n")
+label.place(rely=0.06, relwidth=1, relheight=1)
+
+root.mainloop()
