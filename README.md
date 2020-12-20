@@ -28,7 +28,7 @@ Just create a .py-file on your computer with the code in main or run it on a vir
 # Instruction on how to use our search engine
 It is actually quite easy to use, you can simply enter the respective data and press the corresponding search button. The respective books that match the search criteria are displayed directly below.
 
-I hope you enjoy our little programme and we are open to any suggestions and feedback.
+We hope you enjoy our little programme and are open to any suggestions and feedback.
 
 
 
