@@ -6,7 +6,7 @@ For the functionality of the code, we kept to a large extent to the specificatio
 # Instructions on how to run the code
 First, the tkinter and datetime libraries must be installed. We have included two instructions below to install the two libraries.
 
-## Instructions on how to install tkinter
+### Instructions on how to install tkinter
 Tkinter comes pre-installed with the Python installer binaries for Mac OS X and the Windows platform. 
 So if you install Python from the official binaries for Mac OS X or Windows platform, 
 you are good to go with Tkinter.
