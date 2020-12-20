@@ -1,5 +1,5 @@
 # Newyorktimes-Project
-This is the project of Hauke Schnepel, Claudio Vassallo, Dennis Philip Erni. The project exist of one notebook with all the code, one .txt-file with bestseller data from the new york times, and a readme with a step by step manual.
+This is the project of Hauke Schnepel, Claudio Vassallo, Dennis Philip Erni. The project exist of one notebook with all the code, one .txt-file with bestsellers2 data from the new york times, and a readme with a step by step manual.
 
 For the functionality of the code, we kept to a large extent to the specifications of the task description. However, it was very important to us that the code runs very well and securely on the one hand, and on the other hand we wanted to refresh the input and output a little graphically. We hope that we have achieved our two goals in your opinion. 
 
